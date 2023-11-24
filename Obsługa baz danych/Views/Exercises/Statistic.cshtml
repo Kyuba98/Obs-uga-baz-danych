@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Obsługa_baz_danych.Models.ExerciseType>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Wybierz ćwiczenie</h1>
+
+<body>
+    <form asp-action="StatisticResults">
+        @foreach (var item in Model)
+        {
+            <button type="submit" name="exerciseTypeId" value="@item.Id">
+                @Html.DisplayFor(modelItem => item.Name)
+            </button>
+        }
+    </form>
+</body>

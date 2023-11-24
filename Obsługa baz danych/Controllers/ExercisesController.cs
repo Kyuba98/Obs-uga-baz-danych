@@ -32,6 +32,35 @@ namespace Obsługa_baz_danych.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
+        public async Task<IActionResult> Statistic()
+        {
+            var applicationDbContext = _context.ExerciseType;
+            return View(await applicationDbContext.ToListAsync());
+        }
+
+        // Post: Statistic
+        public async Task<IActionResult> StatisticResults(int exerciseTypeId)
+        {
+            DateTime date = DateTime.Now;
+            date = date.AddDays(-28);
+            IdentityUser user = _userManager.FindByNameAsync(User.Identity.Name).Result;
+            var exerciseType = _context.ExerciseType.FindAsync(exerciseTypeId).Result;
+            var applicationDbContext = _context.Exercise.Where(e => e.UserId == user.Id).Where(e => e.Session.Start > date).Include(e => e.User).Include(e => e.ExerciseType).Include(e => e.Session).Where(e => e.ExerciseType.Id == exerciseTypeId);
+            int record = 0;
+            int numberOfSesions = 0;
+            foreach (var e in applicationDbContext)
+            {
+                numberOfSesions++;
+                int hold = e.Reps * e.Series * e.Weight;
+                if (hold > record) { record = hold; }
+            }
+            
+            ViewBag.ExerciseTypeName = exerciseType.Name;
+            ViewBag.Record = record;
+            ViewBag.NumberOfSesions = numberOfSesions;
+            return View(await applicationDbContext.ToListAsync());
+        }
+
         // GET: Exercises/Details/5
         public async Task<IActionResult> Details(int? id)
         {

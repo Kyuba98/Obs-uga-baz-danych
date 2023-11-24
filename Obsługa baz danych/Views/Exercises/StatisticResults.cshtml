@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Obsługa_baz_danych.Models.Exercise>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Statystyki</h1>
+
+<p>
+    <h2>Najlepszy wynik z ostatnich 2 tygodni - @ViewBag.Record</h2>
+    <h2>Miałeś łącznie @ViewBag.numberOfSesions sesje ćwiczenia @ViewBag.ExerciseTypeName </h2>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Weight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reps)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Series)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Session)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExerciseType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Weight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Reps)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Series)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Session.Start) - @Html.DisplayFor(modelItem => item.Session.End)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExerciseType.Name)
+                </td>
+                <th>
+                    @Html.DisplayFor(modelItem => item.User.UserName)
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>
